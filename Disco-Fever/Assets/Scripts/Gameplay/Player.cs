@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Player : InGameObject
 {
-    public int lanes = 8;
-    private int currentLane = 0;
+    public int width = 12;
+    public int height = 10;
+
+
+    private int x, y;
 
     public float stepSize = 1.0f;
 
@@ -19,21 +22,39 @@ public class Player : InGameObject
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            if (currentLane > 0)
+            if (x > 0)
             {
                 transform.Translate(Vector3.left * stepSize);
-                currentLane--;
+                x--;
             }
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            if (currentLane < lanes - 1)
+            if (x < width - 1)
             {
                 transform.Translate(Vector3.right * stepSize);
-                currentLane++;
-                Debug.Log(currentLane);
+                x++;
+                Debug.Log(x);
             }
         }
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            if (y < height - 1)
+            {
+                transform.Translate(Vector3.up * stepSize);
+                y++;
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            if (y > 0)
+            {
+                transform.Translate(Vector3.down * stepSize);
+                y--;
+            }
+        }
+
+
 
 
 
