@@ -7,14 +7,20 @@ public class Player : InGameObject
     public int width = 12;
     public int height = 10;
 
-
     private int x, y;
 
     public float stepSize = 1.0f;
 
+    private Vector3 targetPosition;
+
+    public float speed = 1.0f;
+
+    public LayerMask groundLayers;
+    private bool isGrounded;
+
     void Start()
     {
-
+        targetPosition = transform.position;
     }
 
     void Update()
@@ -24,7 +30,7 @@ public class Player : InGameObject
         {
             if (x > 0)
             {
-                transform.Translate(Vector3.left * stepSize);
+                targetPosition.x -= stepSize;
                 x--;
             }
         }
@@ -32,16 +38,15 @@ public class Player : InGameObject
         {
             if (x < width - 1)
             {
-                transform.Translate(Vector3.right * stepSize);
+                targetPosition.x += stepSize;
                 x++;
-                Debug.Log(x);
             }
         }
         else if (Input.GetKeyDown(KeyCode.W))
         {
             if (y < height - 1)
             {
-                transform.Translate(Vector3.up * stepSize);
+                targetPosition.y += stepSize;
                 y++;
             }
         }
@@ -49,16 +54,20 @@ public class Player : InGameObject
         {
             if (y > 0)
             {
-                transform.Translate(Vector3.down * stepSize);
+                targetPosition.y -= stepSize;
                 y--;
             }
         }
 
+        isGrounded = Physics.Linecast(transform.position + Vector3.forward, transform.position + Vector3.back, groundLayers);
+        Debug.DrawLine(transform.position + Vector3.forward, transform.position + Vector3.back);
 
+        float step = speed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
 
-
-
+        if(!isGrounded)
+        {
+            Debug.Log("YOU LOST");
+        }
     }
-
-
 }
