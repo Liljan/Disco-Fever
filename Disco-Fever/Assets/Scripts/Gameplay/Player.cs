@@ -18,6 +18,13 @@ public class Player : InGameObject
     public LayerMask groundLayers;
     private bool isGrounded;
 
+    private Animator animator;
+
+    public void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     void Start()
     {
         targetPosition = transform.position;
@@ -57,6 +64,11 @@ public class Player : InGameObject
                 targetPosition.y -= stepSize;
                 y--;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            animator.SetTrigger("Jump");
         }
 
         isGrounded = Physics.Linecast(transform.position + Vector3.forward, transform.position + Vector3.back, groundLayers);
