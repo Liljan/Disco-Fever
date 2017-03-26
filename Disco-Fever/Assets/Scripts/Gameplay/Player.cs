@@ -65,7 +65,7 @@ public class Player : InGameObject
         float step = speed * Time.deltaTime;
         transform.position = Vector3.MoveTowards(transform.position, targetPosition, step);
 
-        if(!isGrounded)
+        if (!isGrounded)
         {
             Debug.Log("YOU LOST");
         }
